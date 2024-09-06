@@ -31,6 +31,7 @@ const Manager = () => {
   const savePassword = () => {
     setPasswordArray([...passwordArray, { ...form, id: uuidv4 }]);
     localStorage.setItem("passwords", JSON.stringify([...passwordArray, form]));
+    setform({ site: "", username: "", password: "" });
     toast.info("Password saved!", {
       position: "top-center",
       autoClose: 3000,
@@ -41,7 +42,6 @@ const Manager = () => {
       progress: undefined,
       theme: "dark",
     });
-    setform({ site: "", username: "", password: "" });
   };
 
   const deletePassword = (id) => {
@@ -68,16 +68,18 @@ const Manager = () => {
   const editPassword = (id) => {
     setform(passwordArray.filter((i) => i.id === id)[0]);
     setPasswordArray(passwordArray.filter((item) => item.id !== id));
-    toast.info("Password edited!", {
-      position: "top-center",
-      autoClose: 3000,
-      hideProgressBar: false,
-      closeOnClick: true,
-      pauseOnHover: false,
-      draggable: false,
-      progress: undefined,
-      theme: "dark",
-    });
+    if (document.getElementById("submit").addEventListener("click")) {
+      toast.info("Password saved!", {
+        position: "top-center",
+        autoClose: 3000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: false,
+        draggable: false,
+        progress: undefined,
+        theme: "dark",
+      });
+    }
   };
 
   const copyText = (text) => {
@@ -159,6 +161,7 @@ const Manager = () => {
           </div>
           <div className="flex justify-center">
             <button
+              id="submit"
               onClick={savePassword}
               className="text-white flex justify-center items-center gap-2 bg-blue-800 px-5 py-2 w-fit rounded-3xl"
             >
